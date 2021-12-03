@@ -7,7 +7,8 @@ import 'extensions.dart';
 
 /// This widget allows to use svg vectors when running on web
 class VectorAsset extends StatelessWidget {
-  final String image;
+  final String? image;
+  final String? svg;
   final Color? color;
   final BlendMode? colorBlendMode;
   final double? width;
@@ -16,8 +17,9 @@ class VectorAsset extends StatelessWidget {
   final Alignment alignment;
   final String? dark;
 
-  const VectorAsset(
-    this.image, {
+  const VectorAsset({
+    this.image,
+    this.svg,
     Key? key,
     this.color,
     this.colorBlendMode,
@@ -30,25 +32,35 @@ class VectorAsset extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb
-        ? Image.network(
-            AppConstants.webAssetPrefix +
-                (context.isDarkTheme ? dark ?? image : image),
-            color: color,
-            colorBlendMode: colorBlendMode,
-            width: width,
-            height: height,
-            fit: fit,
-            alignment: alignment,
-          )
-        : SvgPicture.asset(
-            context.isDarkTheme ? dark ?? image : image,
-            color: color,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-            width: width,
-            height: height,
-            fit: fit ?? BoxFit.contain,
-            alignment: alignment,
-          );
+    return (image != null)
+        ? kIsWeb
+            ? Image.network(
+                AppConstants.webAssetPrefix +
+                    (context.isDarkTheme ? dark ?? image! : image!),
+                color: color,
+                colorBlendMode: colorBlendMode,
+                width: width,
+                height: height,
+                fit: fit,
+                alignment: alignment,
+              )
+            : Image.asset(
+                image!,
+                width: width,
+                height: height,
+                fit: fit ?? BoxFit.contain,
+                alignment: alignment,
+              )
+        : (svg != null)
+            ? SvgPicture.asset(
+                context.isDarkTheme ? dark ?? svg! : svg!,
+                color: color,
+                colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+                width: width,
+                height: height,
+                fit: fit ?? BoxFit.contain,
+                alignment: alignment,
+              )
+            : Image.asset('');
   }
 }

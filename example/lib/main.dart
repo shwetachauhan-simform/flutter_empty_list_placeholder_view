@@ -1,4 +1,4 @@
-import 'package:empty_placeholder_view/emptylistplaceholderview.dart';
+import 'package:example/mail_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,33 +12,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Empty Place Holder Demo',
+      theme: ThemeData(
+        primaryColor: const Color(0xffEE5366),
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+              onPrimary: const Color(0xffEE5366),
+              secondary: Colors.amber,
+            ),
+      ),
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           bottom: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Expanded(
-                child: /*true
-                        ? ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                                return MailTile();
-                              }
-                              return MailTile();
-                            })
-                        :*/
-                    EmptyListPlaceholder(
-                  state: ApiState.loading,
-                  loadingTitle: 'emptyKeyReleaseTitle',
-                  loadingSubtitle: 'store.serverError',
-                  buttonColor: Colors.amber,
-                ),
-              ),
-            ],
-          ),
+          child: Builder(builder: (context) => MailPage()),
         ),
       ),
     );
